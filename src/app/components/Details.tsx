@@ -1,6 +1,5 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
 import VantaBackground from "./VantaBackground";
 import Sidebar from "./Sidebar";
 
@@ -17,7 +16,6 @@ export default function Details() {
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
   const [page, setPage] = useState(1);
   const [itemsPerPage] = useState(5);
-  const router = useRouter();
 
 
   useEffect(() => {

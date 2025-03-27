@@ -1,9 +1,21 @@
 declare module "vanta/dist/vanta.net.min" {
-    const VANTA: any;
-    export default VANTA;
-
-    export function NET(arg0: { el: string; mouseControls: boolean; touchControls: boolean; gyroControls: boolean; minHeight: number; minWidth: number; scale: number; scaleMobile: number; }) {
-        throw new Error("Function not implemented.");
+    import { Object3D } from "three";
+  
+    interface VantaOptions {
+      el: HTMLElement;
+      mouseControls: boolean;
+      touchControls: boolean;
+      gyroControls: boolean;
+      minHeight: number;
+      minWidth: number;
+      scale: number;
+      scaleMobile: number;
+      color?: number;
+      backgroundColor?: number;
+    }
+  
+    export default class VANTA {
+      static NET(options: VantaOptions): Object3D;
     }
   }
   

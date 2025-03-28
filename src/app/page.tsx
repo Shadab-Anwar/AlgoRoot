@@ -41,20 +41,15 @@ useEffect(() => {
   }}
   className="relative min-h-screen flex flex-col justify-center items-center overflow-hidden bg-gray-950 text-gray-200"
 >
-  {/* ✅ Fixed Navbar at the Top */}
   <div className="absolute top-0 left-0 w-full z-50">
     <Navbar />
     <Sidebar/>
   </div>
-
-  {/* Main Content */}
   <div className="w-full z-20 flex justify-center items-center flex-col mt-20 px-8">
     <Details />
   </div>
 
   <Footer />
-
-  {/* Background Stars */}
   <div className="absolute inset-0 pointer-events-none">
     <Canvas>
       <Stars radius={50} count={3000} factor={4} fade speed={2} />

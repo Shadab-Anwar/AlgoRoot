@@ -2,8 +2,6 @@
 import React, { useEffect, useState } from "react";
 import Sidebar from "./Sidebar";
 
-
-// Define User Type
 type User = {
   id: number;
   name: string;

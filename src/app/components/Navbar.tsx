@@ -15,7 +15,7 @@ export default function Navbar() {
     } else {
       setUser(JSON.parse(storedUser));
     }
-  }, [router]); // Fixed dependency issue
+  }, [router]); 
 
   const handleLogout = () => {
     localStorage.removeItem("userSession");

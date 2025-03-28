@@ -8,10 +8,8 @@ const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
 
-  // Toggle sidebar visibility
   const toggleSidebar = () => setIsOpen(!isOpen);
 
-  // Close sidebar when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (

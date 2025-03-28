@@ -7,12 +7,12 @@ export default function Home() {
   const [user, setUser] = useState<{ name: string } | null>(null);
 
   useEffect(() => {
-    const storedUser = localStorage.getItem("userSession"); // Use correct key
+    const storedUser = localStorage.getItem("userSession"); 
   
     if (!storedUser) {
-      router.push("/auth/login"); // Redirect if no user is found
+      router.push("/auth/login"); 
     } else {
-      setUser(JSON.parse(storedUser)); // Set user correctly
+      setUser(JSON.parse(storedUser)); 
     }
   }, []);
   

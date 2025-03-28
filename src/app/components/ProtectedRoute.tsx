@@ -9,7 +9,7 @@ export default function ProtectedRoute({ children }: { children: React.ReactNode
     if (!localStorage.getItem("user")) {
       router.push("/auth/login");
     }
-  }, [router]); // Added `router` to the dependency array
+  }, [router]);
 
   return <>{children}</>;
 }

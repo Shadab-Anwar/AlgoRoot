@@ -2,7 +2,7 @@
 import Details from "./components/Details";
 import Footer from "./components/Footer";
 import Navbar from "./components/Navbar";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Stars } from "@react-three/drei";  
 import { Canvas } from "@react-three/fiber";
 import { 
@@ -27,8 +27,6 @@ useEffect(() => {
       repeatType: "mirror",
     });
   }, []);
-
-  const backgroundImage = useMotionTemplate`radial-gradient(125% 125% at 50% 0%, #020617 50%, ${color})`;
 
 
   return (<>

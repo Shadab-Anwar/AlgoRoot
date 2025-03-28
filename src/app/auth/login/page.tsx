@@ -4,19 +4,25 @@ import { useRouter } from "next/navigation";
 
 export default function Login() {
   const router = useRouter();
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [errors, setErrors] = useState({ username: "", password: "" });
+  const [errors, setErrors] = useState({ email: "", password: "" });
 
   const validateForm = () => {
     let isValid = true;
-    const newErrors = { username: "", password: "" }; // Changed `let` to `const`
+    const newErrors = { email: "", password: "" };
 
-    if (username.length < 3) {
-      newErrors.username = "Username must be at least 3 characters long.";
+    // Email validation (simple regex)
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!email) {
+      newErrors.email = "Email is required.";
+      isValid = false;
+    } else if (!emailRegex.test(email)) {
+      newErrors.email = "Invalid email format.";
       isValid = false;
     }
 
+    // Password validation
     if (password.length < 6) {
       newErrors.password = "Password must be at least 6 characters long.";
       isValid = false;
@@ -29,23 +35,31 @@ export default function Login() {
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!validateForm()) return; // Call validateForm before proceeding
+    if (!validateForm()) return;
 
-    const storedUser = localStorage.getItem(username);
+    // Search localStorage for user data (since email is stored inside objects)
+    let foundUser = null;
+    for (let key in localStorage) {
+      try {
+        const user = JSON.parse(localStorage.getItem(key) || "{}");
+        if (user.email === email) {
+          foundUser = user;
+          break;
+        }
+      } catch (error) {}
+    }
 
-    if (!storedUser) {
-      alert("User not found");
+    if (!foundUser) {
+      setErrors((prev) => ({ ...prev, email: "Email not found. Please register." }));
       return;
     }
 
-    const parsedUser = JSON.parse(storedUser);
-
-    if (parsedUser.password === password) {
-      localStorage.setItem("userSession", JSON.stringify(parsedUser));
+    if (foundUser.password === password) {
+      localStorage.setItem("userSession", JSON.stringify(foundUser));
       alert("Login successful!");
       router.push("/");
     } else {
-      alert("Incorrect password");
+      setErrors((prev) => ({ ...prev, password: "Incorrect password." }));
     }
   };
 
@@ -59,67 +73,52 @@ export default function Login() {
             </h1>
             <form className="space-y-4 md:space-y-6" onSubmit={handleLogin}>
               <div>
-                <label
-                  htmlFor="UserName"
-                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                >
-                  Your Username
+                <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                  Your Email
                 </label>
                 <input
-                  type="text"
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
-                  name="UserName"
-                  id="UserName"
+                  type="email"
+                  id="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                   className={`bg-gray-50 border ${
-                    errors.username ? "border-red-500" : "border-gray-300"
-                  } text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500`}
-                  placeholder="Enter Your Username"
+                    errors.email ? "border-red-500" : "border-gray-300"
+                  } text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white`}
+                  placeholder="Enter Your Email"
                   required
                 />
-                {errors.username && (
-                  <p className="text-red-500 text-sm mt-1">{errors.username}</p>
-                )}
+                {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
               </div>
 
               <div>
-                <label
-                  htmlFor="password"
-                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                >
+                <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                   Password
                 </label>
                 <input
                   type="password"
+                  id="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  name="password"
-                  id="password"
                   placeholder="••••••••"
                   className={`bg-gray-50 border ${
                     errors.password ? "border-red-500" : "border-gray-300"
-                  } text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500`}
+                  } text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white`}
                   required
                 />
-                {errors.password && (
-                  <p className="text-red-500 text-sm mt-1">{errors.password}</p>
-                )}
+                {errors.password && <p className="text-red-500 text-sm mt-1">{errors.password}</p>}
               </div>
 
               <button
                 type="submit"
                 className="w-full border-2 border-white text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800 disabled:bg-gray-400"
-                disabled={!username || !password}
+                disabled={!email || !password}
               >
                 Sign in
               </button>
 
               <p className="text-sm font-light text-gray-500 dark:text-gray-400">
                 Don’t have an account yet?{" "}
-                <a
-                  href="/auth/register"
-                  className="font-medium text-primary-600 hover:underline dark:text-primary-500"
-                >
+                <a href="/auth/register" className="font-medium text-primary-600 hover:underline dark:text-primary-500">
                   Sign up
                 </a>
               </p>

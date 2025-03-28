@@ -34,26 +34,27 @@ export default function Login() {
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
-
+  
     if (!validateForm()) return;
-
-    // Search localStorage for user data (since email is stored inside objects)
+  
     let foundUser = null;
-    for (let key in localStorage) {
+    for (const key in localStorage) { // 🔹 Changed `let` to `const`
       try {
         const user = JSON.parse(localStorage.getItem(key) || "{}");
         if (user.email === email) {
           foundUser = user;
           break;
         }
-      } catch (error) {}
+      } catch {
+        // 🔹 Removed `(error)`, since it's unused
+      }
     }
-
+  
     if (!foundUser) {
       setErrors((prev) => ({ ...prev, email: "Email not found. Please register." }));
       return;
     }
-
+  
     if (foundUser.password === password) {
       localStorage.setItem("userSession", JSON.stringify(foundUser));
       alert("Login successful!");
@@ -62,6 +63,7 @@ export default function Login() {
       setErrors((prev) => ({ ...prev, password: "Incorrect password." }));
     }
   };
+  
 
   return (
     <section className="bg-gray-50 dark:bg-gray-900">

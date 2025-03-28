@@ -31,7 +31,7 @@ const Sidebar = () => {
       <button
         id="menu-button"
         onClick={toggleSidebar}
-        className="fixed top-5 right-5 z-[60] bg-blue-600 text-white px-4 py-2 rounded-lg shadow-lg"
+        className="absolute top-5 right-5 z-[60] bg-blue-600 text-white px-4 py-2 rounded-lg shadow-lg"
       >
         {isOpen ? "Close" : "Menu"}
       </button>

@@ -11,7 +11,6 @@ import {
   motion, 
   animate 
 } from "framer-motion";
-import Sidebar from "./components/Sidebar";
 
 const COLORS_TOP = ["#13FFAA", "#1E67C6", "#CE84CF", "#DD335C"];
 
@@ -43,7 +42,6 @@ useEffect(() => {
 >
   <div className="absolute top-0 left-0 w-full z-50">
     <Navbar />
-    <Sidebar/>
   </div>
   <div className="w-full z-20 flex justify-center items-center flex-col mt-20 px-8">
     <Details />

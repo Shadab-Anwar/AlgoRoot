@@ -1,6 +1,5 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import Sidebar from "./Sidebar";
 
 type User = {
   id: number;
@@ -37,7 +36,7 @@ export default function Details() {
 
   return (
     <>
-        <Sidebar />
+        
         <h1 className="text-2xl font-bold mb-4">Details Dashboard</h1>
 
         {/* Search Bar */}

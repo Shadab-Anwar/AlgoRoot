@@ -3,6 +3,7 @@ import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
+import Sidebar from "./Sidebar";
 
 export default function Navbar() {
   const router = useRouter();
@@ -134,6 +135,7 @@ export default function Navbar() {
             </div>
           )}
         </div>
+        <Sidebar/>
       </div>
     </nav>
   );
